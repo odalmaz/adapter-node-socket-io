@@ -78,7 +78,7 @@ export default function (opts = {}) {
         input: {
           index: `${tmp}/index.js`,
           manifest: `${tmp}/manifest.js`,
-          ws: `${tmp}/socket-io.js`,
+          "socket-io": `${tmp}/socket-io.js`,
         },
         external: [
           // dependencies could have deep exports, so we need a regex
