@@ -24,7 +24,7 @@ export default function () {
     load(file) {
       if (command !== "build" && file === `${root}/src/hooks.server.ts`) {
         const lines = readFileSync(file, "utf-8").split("\n");
-        lines.push(`handleWs(globalThis[Symbol.for('${sym}')]);`);
+        lines.push(`handleSocketIo(globalThis[Symbol.for('${sym}')]);`);
 
         return { code: lines.join("\n") };
       }

@@ -16,7 +16,7 @@ import { get_hooks } from "./internal.js";
 
 async function initWs(server) {
   const hooks = await get_hooks();
-  const handler = hooks['handleWs'];
+  const handler = hooks['handleSocketIo'];
   handler(new Server(server));
 }
 

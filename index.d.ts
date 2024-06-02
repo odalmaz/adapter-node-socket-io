@@ -15,4 +15,4 @@ interface AdapterOptions {
 
 export default function plugin(options?: AdapterOptions): Adapter;
 
-export type HandleWs = (wss: Server) => void;
+export type HandleSocketIo = (io: Server) => void;

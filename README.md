@@ -1,45 +1,33 @@
 # @almaz/adapter-node-socket-io
 
-[Adapter](https://kit.svelte.dev/docs/adapters) for SvelteKit apps that generates a standalone Node server with support for WebSockets.
+[Adapter](https://kit.svelte.dev/docs/adapters) for SvelteKit apps that generates a standalone Node server with support for Socket.io
 
-This package uses the [ws](https://github.com/socketio/socket.io) library to provide the websockets functionality.
+This package uses the [Socket.io](https://github.com/socketio/socket.io) library
 
 ## Disclaimer
+This is an testing repo.
 
-This project has taken a fair amount of shorcuts due to SvelteKit not being ready yet and the author having the need to deliver
-code. Nevertheless, it should provide a convenient package to build WebSockets on top.
+This proyect is based on the work of [adapter-node-ws](https://github.com/carlosV2/adapter-node-ws) by Carlos Ortega.
 
-I can't guarantee it will suite the needs of everybody (actually, I can most likely guarantee the oposite) but I'm happy to, given
-a PR, review and comment on potential improvemnts (there is lot of room for improvement!).
+### Installation
 
-## Docs
-
-This adapter comes with support for both DEV and PROD.
-
-Each environment can be configured individually.
+```bash
+pnpm install https://github.com/odalmaz/adapter-node-socket-io
+```
 
 ### Development
-
-Unfortunately, I couldn't find another way of doing this than changing the original HMR port from Vite. This, however, should
-not affect the functionality but it does introduce a minimal configuration. In your `vite.config.ts`, you need to add:
+You need to add the plugin to inject the WebSocket into the same file:
 
 ```ts
-const config: UserConfig = {
-  server: {
-    hmr: { port: <any other than your server port> }
-  }
-};
-```
+import { sveltekit } from '@sveltejs/kit/vite';
+import { defineConfig } from 'vite';
+import SocketIoPlugin from "@almaz/adapter-node-socket-io/plugin";
 
-In addition to this change, you also need to add the plugin to inject the WebSocket into the same file:
+export default defineConfig({
+	plugins: [sveltekit(), SocketIoPlugin()]
+});
 
-```ts
-import WebSockets from "@almaz/adapter-node-socket-io/plugin";
-
-const config: UserConfig = {
-  plugins: [WebSockets()],
-};
-```
+````
 
 ### Production
 
@@ -64,14 +52,14 @@ to this one.
 ## How to use
 
 Have you configured the required environments? Good, then the only thing left is to build WebSockety code. For this,
-quite simply export a function named `handleWs` to your `hooks.server.ts` file:
+quite simply export a function named `handleSocketIo` to your `hooks.server.ts` file:
 
 ```ts
-import type { WebSocketServer } from "ws";
+import type { Server } from "socket.io";
 
-export const handleWs = (wss: WebSocketServer) => {
-  wss.on("connection", (ws) => {
-    ws.send("Hello World!");
+export const handleSocketIo = (io: Server) => {
+  io.on("connection", () => {
+    socket.emit("hello", "world");
   });
 };
 ```
